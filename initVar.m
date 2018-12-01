@@ -1,11 +1,15 @@
-function [X_training, y_training, X_test, y_test, theta] = initVar(wineData)
+function [X_training, y_training_matrix, X_test, y_test_matrix, y_training, y_test] = initVar(wineData)
     m = size(wineData, 1);
     n = size(wineData, 2) - 1;
     seventy_pre_examples = ceil(90 * m / 100);
 
+    % For comparsion
+    y_training = wineData(1:seventy_pre_examples, 1);
+    y_test = wineData(seventy_pre_examples + 1:end, 1);
+
     %----------70% for training------------------------
 
-    y_training = wineData(1:seventy_pre_examples, 1);
+    y_training_matrix = [1:3] == wineData(1:seventy_pre_examples, 1);
     X_training = [ones(seventy_pre_examples, 1) wineData(1:seventy_pre_examples, 2:end)];
 
     %--------------------------------------------------
@@ -25,7 +29,7 @@ function [X_training, y_training, X_test, y_test, theta] = initVar(wineData)
     
     %----------30% for training-------------------------
 
-    y_test = wineData(seventy_pre_examples + 1:end, 1);
+    y_test_matrix = [1:3] == wineData(seventy_pre_examples + 1:end, 1);
     X_test = [ones(m - seventy_pre_examples, 1) wineData(seventy_pre_examples + 1:end, 2:end)];
 
     %---------------------------------------------------
@@ -44,6 +48,3 @@ function [X_training, y_training, X_test, y_test, theta] = initVar(wineData)
     % X_test = X_test_mean;
 
     %---------------------------------------------------
-
-    % Init theta
-    theta = zeros(n + 1, 1);
