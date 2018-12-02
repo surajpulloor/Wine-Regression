@@ -19,6 +19,9 @@ We want to predict a "Alcohol Class(1..3)" for a set of features for a given win
 * Calculate the cost values for the training set & test set.
 * If J{train}(theta) < J{test}(theta), we are probably overfitting, use Regularization
 
+## Software needed
+* Octave v.4.4.1 or higher
+
 ## TODO
 * Add an input interface to take in wine examples from the command promt
 
