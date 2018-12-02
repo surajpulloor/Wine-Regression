@@ -5,95 +5,134 @@ function void = main()
     % Load wine data
     load ('wine_random.mat');
     disp('Wine Data loaded!!!');
-    inds = [];
-    lambda = [0];
-    jVal_history_training = [];
-    jVal_history_test = [];
+    lambda = [0;];
+    jVal_training_history = [];
+    jVal_test_history = [];
+    h_x_training_accuracy = [];
+    h_x_test_accuracy = [];
+    elapsed_time = [];
 
 
-    
     [X_training, y_training, X_test, y_test, theta] = initVar(wine_randomized);
     disp('X_training, y_training, X_test, y_test, theta initialized!!!');
     
     % Join Labels y_train and y_test
     y = [y_training; y_test];
+    [X_training, y_training_matrix, X_test, y_test_matrix, y_training, y_test] = initVar(wine_randomized);
+    disp('X_training, y_training_matrix, X_test, y_test_matrix, theta initialized!!!');
+
 
     printf('\n\n************Regularized Logistic Regression*************\n');
 
+    disp('--------------------------TRAINING & TESTING----------------------------');
+
+    disp('Training...');
+    disp('Learning parameters theta...');
     for j = 1:size(lambda, 1),
 
-        % There are 3 class of wines in our training set
-        num_labels = 3;
+        thetas = initThetaVar();
 
-        thetas = [];
+        % ------------------Training phase------------------
+        
+        % Time this
+        tic();
+        thetas = gd(thetas, X_training, y_training_matrix, lambda(j));
+        t1 = toc();
+        elapsed_time = [elapsed_time; t1];
+        disp([num2str(j) ') ' 'Lambda=' num2str(lambda(j)) ' Training completed... Took ' num2str(t1) 's']);
 
-        disp('**************************************************************');
-        printf('* Lambda = %f\n', lambda(j));
-        printf('*\n');
-        printf('**************************************************************\n\n');
-
-        for i = 1:num_labels,
-            printf('\n%d) Training on X for k = %d\n', i, i);
-            y_k = (y_training == i);
-            theta = gd(theta, X_training, y_k, lambda(j));
-            thetas = [thetas theta];
-            theta = zeros(size(X_training, 2), 1);
-        end;
-
-
+        % -----------------Test phase-----------------------
+        
+        % Training set
         h_x_training = sigmoid(X_training * thetas);
+        
+        % Test set
         h_x_test = sigmoid(X_test * thetas);
 
-        [val ind] = max([h_x_training; h_x_test]');
+        % Max h_(x) for each training example
+        [val_train ind_train] = max(h_x_training');
+        % Max h_(x) for each test example
+        [val_train ind_test] = max(h_x_test');
         
-        disp('Index comparison');
-        disp('Actual Label(y_k) | Prediction(h_(x))');
-        disp([y ind']);
+
+        % Calculate percentage accuracy value for h_(x)
+        h_x_training_accuracy_percentage = (sum(y_training == ind_train') / size(y_training, 1)) * 100;
+        h_x_training_accuracy = [h_x_training_accuracy ;h_x_training_accuracy_percentage];
+
+
+        % Calculate percentage accuracy value for h_(x)
+        h_x_test_accuracy_percentage = (sum(y_test == ind_test') / size(y_test, 1)) * 100;
+        h_x_test_accuracy = [h_x_test_accuracy ;h_x_test_accuracy_percentage];
+
+        %-----------------------------------------------------
 
         % Cost Function for training set
-        printf('Cost Function for Training Set\n');
-        jVal_acc = 0;
-        for i = 1:3,
-            y_k = (y_training == i);
-            [jVal grad] = costFunction(thetas(:, i), X_training, y_k, lambda(j));
-            jVal_acc = jVal_acc + jVal;
-            printf('%d) jVal=%d for k=%d\n', i, jVal, i);
-        end;
         
-        jVal_history_training = [jVal_history_training; jVal_acc];
+        % Calculate Cost Function for training set and add it to jVal_training_history
+        [jVal_training, grad_training] = costFunction(thetas(:), X_training, y_training_matrix, lambda(j));
+        jVal_training_history = [jVal_training_history; jVal_training];
+        
 
-        printf('Total Cost Function: %f\n', jVal_acc);
+        %------------------------------------------------------
 
         % Cost Function for test set
-        printf('Cost Function for Testing Set\n');
-        jVal_acc = 0;
-        for i = 1:3,
-            y_k = (y_test == i);
-            [jVal grad] = costFunction(thetas(:, i), X_test, y_k, lambda(j));
-            jVal_acc = jVal_acc + jVal;
-            printf('%d) jVal=%d for k=%d\n', i, jVal, i);
-        end;
 
-        jVal_history_test = [jVal_history_test; jVal_acc];
+        % Calculate Cost Function for test set and add it to jVal_test_history
+        [jVal_testing, grad_testing] = costFunction(thetas(:), X_test, y_test_matrix, lambda(j));
+        jVal_test_history = [jVal_test_history; jVal_testing];
+        
 
-        printf('Total Cost Function: %f\n', jVal_acc);
-
-        printf('**************************************************************\n\n');
+        %-------------------------------------------------------
         
     end;
 
+    disp('------------------------END--TRAINING & TESTING----------------------------');
     
     % Display Values of Cost Fuction and lambda
     disp('');
-    disp('J(theta) history for training case');
+    disp('--------------------------ANALYSIS--------------------------------------');
+    
+    disp('');
+    disp('1) TIME TO TRAIN');
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+    disp('Elpased Time | Lambda');
+    disp([elapsed_time lambda]);
+
+    disp('');
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+    disp('2) ACCURACY TEST');
+    disp('For Training Set:');
+    disp('Accuracy of h_(x)% | Lambda Values');
+    disp('*****************************************************************');
+    disp([h_x_training_accuracy lambda]);
+    disp('*****************************************************************');
+
+    disp('')
+    disp('For Test Set:');
+    disp('Accuracy of h_(x)% | Lambda Values');
+    disp('*****************************************************************');
+    disp([h_x_test_accuracy lambda]);
+    disp('*****************************************************************');
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+
+    disp('');
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+    disp('3) J(theta) TEST');
+    disp('')
+    disp('1) For training case');
     disp('*****************************************************************');
     disp('Cost Function values | Lambda values');
-    disp([jVal_history_training lambda]);
+    disp([jVal_training_history lambda]);
     disp('*****************************************************************');
 
     disp('');
-    disp('J(theta) history for test case');
+    disp('2) For test case');
     disp('*****************************************************************');
     disp('Cost Function values | Lambda values')
-    disp([jVal_history_test lambda]);
+    disp([jVal_test_history lambda]);
     disp('*****************************************************************');
+    disp('');
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+
+    disp('')
+    disp('------------------------END--ANALYSIS--------------------------------------');
