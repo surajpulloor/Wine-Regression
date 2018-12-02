@@ -3,7 +3,7 @@ function void = main()
     clear ; close all; clc
 
     % Load wine data
-    load ('wine.data');
+    load ('wine_random.mat');
     disp('Wine Data loaded!!!');
     lambda = [0;];
     jVal_training_history = [];
@@ -13,7 +13,7 @@ function void = main()
     elapsed_time = [];
 
 
-    [X_training, y_training_matrix, X_test, y_test_matrix, y_training, y_test] = initVar(wine);
+    [X_training, y_training_matrix, X_test, y_test_matrix, y_training, y_test] = initVar(wine_randomized);
     disp('X_training, y_training_matrix, X_test, y_test_matrix, theta initialized!!!');
 
 
