@@ -14,3 +14,5 @@ function [jVal, grad] = costFunction(theta, X, y, lambda)
 
     % Un-roll gradients for fminunc
     grad = grad(:);
+
+    theta = theta(:);
