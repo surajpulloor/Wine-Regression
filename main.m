@@ -3,7 +3,7 @@ function void = main()
     clear ; close all; clc
 
     % Load wine data
-    load ('wine.data');
+    load ('wine_random.mat');
     disp('Wine Data loaded!!!');
     inds = [];
     lambda = [0];
@@ -12,7 +12,7 @@ function void = main()
 
 
     
-    [X_training, y_training, X_test, y_test, theta] = initVar(wine);
+    [X_training, y_training, X_test, y_test, theta] = initVar(wine_randomized);
     disp('X_training, y_training, X_test, y_test, theta initialized!!!');
     
     % Join Labels y_train and y_test
