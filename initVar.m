@@ -49,10 +49,7 @@ function [X_training, y_training_matrix, X_test, y_test_matrix, y_training, y_te
 
     % Assign the normailed training set to the return variable
     X_test = X_test_mean;
-<<<<<<< HEAD
 
     %---------------------------------------------------
-=======
->>>>>>> wine-reg-vectorized
 
     %---------------------------------------------------
