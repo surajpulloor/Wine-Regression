@@ -10,7 +10,7 @@ We want to predict a "Alcohol Class(1..3)" for a set of features for a given win
 * Classes of the wine are the labels(y)
 
 ## Solution
-* We have 3 classes(k=1..3) here, not 2 classes(1-0). Therefore need to use one-vs-all method.
+* We have 3 classes(k=1..3) here, not 2 classes(1-0). Therefore need to use [One-vs-All](https://en.wikipedia.org/wiki/Multiclass_classification) method.
 * Randomize the wine dataset and store it in wine_random.mat file, becuase the wine dataset it too sorted
 * We divide our dataset into "training set" and "test set"
 * Use Logistic Regression Model to learn/train from the training set
