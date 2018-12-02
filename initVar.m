@@ -22,7 +22,7 @@ function [X_training, y_training, X_test, y_test, theta] = initVar(wineData)
     % Normalized training set
     X_training_mean = [ones(seventy_pre_examples, 1) (X_training(:, 2:end) - X_mean) ./ X_std];
     % Assign the normailed training set to the return variable
-    % X_training = X_training_mean;
+    X_training = X_training_mean;
 
     %---------------------------------------------------
     
@@ -44,7 +44,7 @@ function [X_training, y_training, X_test, y_test, theta] = initVar(wineData)
     X_test_mean = [ones(m - seventy_pre_examples, 1) (X_test(:, 2:end) - X_mean) ./ X_std];
 
     % Assign the normailed training set to the return variable
-    % X_test = X_test_mean;
+    X_test = X_test_mean;
 
     %---------------------------------------------------
 
