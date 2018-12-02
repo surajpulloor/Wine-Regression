@@ -4,7 +4,7 @@ function [X_training, y_training, X_test, y_test, theta] = initVar(wineData)
     seventy_pre_examples = ceil(70 * m / 100);
 
     % Randomize the rows of wine data set
-    wineData = wineData(randperm(size(wineData, 1)), :);
+    % wineData = wineData(randperm(size(wineData, 1)), :);
 
     %----------70% for training------------------------
 
