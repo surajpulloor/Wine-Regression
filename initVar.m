@@ -3,9 +3,6 @@ function [X_training, y_training_matrix, X_test, y_test_matrix, y_training, y_te
     n = size(wineData, 2) - 1;
     seventy_pre_examples = ceil(70 * m / 100);
 
-    % Randomize the rows of wine because the whole data is sorted
-    wineData = wineData(randperm(size(wineData, 1)), :);
-
     % For comparsion
     y_training = wineData(1:seventy_pre_examples, 1);
     y_test = wineData(seventy_pre_examples + 1:end, 1);
