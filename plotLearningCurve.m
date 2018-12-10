@@ -9,7 +9,7 @@ m = ceil(size(X, 1) * 30/100);
 
 [errors_train, errors_test] = learningCurve(X, y, X_test, y_test, lambda, m);
 
-disp('Plotting Training Set Error & Test Set Error\n');
+disp('-> Plotting Training Set Error & Test Set Error\n');
 
 % Plot Training Error and Test Error
 plot(1:m, errors_train, 1:m, errors_test);

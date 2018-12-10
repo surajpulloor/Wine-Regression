@@ -8,10 +8,14 @@ function [errors_train, errors_test] = learningCurve(X, y, X_test, y_test, lambd
     errors_train = [];
     errors_test = [];
 
-    printf('Generating Errors for Training set and Test Set for m = %d\n\n', m);
-
+    printf('\n\n-> Generating Errors for Training set and Test Set for m = %d\n', m);
+    printf('-> Learning Parameters for %d examples\n', m);
+    printf('-> Learning');
     for i = 1:m,
-        printf('%d) Theta learned for %d examples\n', i, i);
+        if mod(i,2),
+            printf('.');
+        end;
+        % printf('%d) Theta learned for %d examples\n', i, i);
         theta_train = gd(initThetaVar(), X(1:i, :), y(1:i, :), lambda);
 
         [jVal_train, grad_train] = costFunction(theta_train, X(1:i, :), y(1:i, :), 0);
@@ -21,5 +25,5 @@ function [errors_train, errors_test] = learningCurve(X, y, X_test, y_test, lambd
         errors_test = [errors_test; jVal_test];
     end;
 
-    printf('\nErrors generated!\n');
+    printf('\n-> Errors generated!\n');
 end
