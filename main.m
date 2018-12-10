@@ -11,15 +11,14 @@ function void = main()
     h_x_training_accuracy = [];
     h_x_test_accuracy = [];
     elapsed_time = [];
+    precisionAndRecalls = [];
 
-
-    [X_training, y_training, X_test, y_test, theta] = initVar(wine_randomized);
-    disp('X_training, y_training, X_test, y_test, theta initialized!!!');
     
-    % Join Labels y_train and y_test
-    y = [y_training; y_test];
     [X_training, y_training_matrix, X_test, y_test_matrix, y_training, y_test] = initVar(wine_randomized);
     disp('X_training, y_training_matrix, X_test, y_test_matrix, theta initialized!!!');
+
+    % Join Labels y_train and y_test
+    y = [y_training; y_test];
 
 
     printf('\n\n************Regularized Logistic Regression*************\n');
@@ -53,6 +52,10 @@ function void = main()
         [val_train ind_train] = max(h_x_training');
         % Max h_(x) for each test example
         [val_train ind_test] = max(h_x_test');
+
+        % Test whether or not test data is skewed or not
+        [precision recall] = precisionAndRecall(ind_test, y_test);
+        precisionAndRecalls = [precisionAndRecalls; precision recall];
         
 
         % Calculate percentage accuracy value for h_(x)
@@ -146,5 +149,17 @@ function void = main()
 
     disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
 
-    disp('')
+    disp('');
+
+    disp('');
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+    disp('3) Precision & Recall Metric');
+    disp('Precison & Recall - Lambda Values');
+    disp([precisionAndRecalls lambda]);
+
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+
+    disp('');
+
+
     disp('------------------------END--ANALYSIS--------------------------------------');
