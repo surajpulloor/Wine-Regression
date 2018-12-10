@@ -18,6 +18,8 @@ We want to predict a "Alcohol Class(1..3)" for a set of features for a given win
 * Calculate the max(h_x) for both training set & test set, store the indices of those max values
 * Calculate the cost values for the training set & test set.
 * If J{train}(theta) < J{test}(theta), we are probably overfitting, use Regularization
+* Plot Learning Curve to learn if the model is undefitting/overfitting
+* Compute Precision & Recall values for the test set to check for skewed classes
 
 ## Software needed
 * Octave v.4.4.1 or higher
