@@ -5,7 +5,7 @@ function void = main()
     % Load wine data
     load ('wine_random.mat');
     disp('Wine Data loaded!!!');
-    lambda = [0;];
+    lambda = [0;0.001;0.002;0.004;0.008];
     jVal_training_history = [];
     jVal_test_history = [];
     h_x_training_accuracy = [];
@@ -132,6 +132,18 @@ function void = main()
     disp([jVal_test_history lambda]);
     disp('*****************************************************************');
     disp('');
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+
+    disp('');
+    disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+    disp('3) Plotting Learning Curve');
+    
+    for j = 1:length(lambda),
+        printf('\n-----------%d) Learning curve for lambda=%d-----------\n', j, lambda(j));
+        plotLearningCurve(X_training, y_training_matrix, X_test, y_test_matrix, lambda(j));
+        pause;
+    end;
+
     disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
 
     disp('')
